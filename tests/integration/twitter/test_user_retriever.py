@@ -109,7 +109,3 @@ class TwitterDevelopersRetrieverTestCase(unittest.TestCase):
             user,
             repr(user),
         )
-
-
-if __name__ == "__main__":
-    unittest.main()
