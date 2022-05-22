@@ -1,0 +1,15 @@
+{
+  "include": [
+    "src",
+    "tests"
+  ],
+  "typeCheckingMode": "strict",
+  "reportCallInDefaultInitializer": "error",
+  "reportImplicitStringConcatenation": "error",
+  "reportMissingSuperCall": "error",
+  "reportPropertyTypeMismatch": "error",
+  "reportUninitializedInstanceVariable": "error",
+  "reportUnnecessaryTypeIgnoreComment": "error",
+  "reportUnusedCallResult": "error",
+  "pythonVersion": "3.10.4"
+}
