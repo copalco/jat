@@ -4,14 +4,19 @@ all: typing style unit-tests ci-build
 
 ci-build: dependencies unit-tests typing style unused-imports imports-order
 
+dependencies:
+		@echo "Installing newest dependencies"
+		poetry install --no-root
+		@echo
+
 unit-tests:
 		@echo "Running tests"
 		python -W error:::redemptions[.*] -m unittest discover -v tests/unit
 		@echo
 
-dependencies:
-		@echo "Installing newest dependencies"
-		poetry install --no-root
+integration-tests:
+		@echo "Running tests"
+		python -W error:::redemptions[.*] -m unittest discover -v tests/integration
 		@echo
 
 typing:
