@@ -6,7 +6,7 @@ from src.twitter.user_retriever import TwitterDevelopersRetriever
 
 class TwitterDevelopersRetrieverTestCase(unittest.TestCase):
     def test_retrieves_connections_of_developers(self) -> None:
-        user = TwitterDevelopersRetriever().user("copalco")
+        user = TwitterDevelopersRetriever(api_token="test").user("copalco")
         self.assertEqual(TwitterUser("copalco", followed_by=[], following=[]), user)
 
 
