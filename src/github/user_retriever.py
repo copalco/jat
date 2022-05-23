@@ -9,7 +9,7 @@ class GithubUserRetriever:
         self.token = api_token
 
     def user(self, username: str) -> GithubUser:
-        _ = requests.get(
+        response = requests.get(
             f"https://api.github.com/users/{username}/orgs",
             auth=HTTPBasicAuth("copalco", self.token),
             headers={
@@ -17,4 +17,7 @@ class GithubUserRetriever:
                 "User-Agent": "copalco",
             },
         )
-        return GithubUser(username)
+        raw_organizations = response.json()
+        return GithubUser(
+            username, organizations=[org["login"] for org in raw_organizations]
+        )

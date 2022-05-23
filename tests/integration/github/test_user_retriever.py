@@ -11,7 +11,7 @@ class GithubUserRetrieverTestCase(unittest.TestCase):
             username="defunkt"
         )
         self.assertEqual(
-            GithubUser("defunkt"),
+            GithubUser("defunkt", ["mustache"]),
             user,
             user,
         )
