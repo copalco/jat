@@ -4,7 +4,7 @@ from src.twitter.user import TwitterUser
 from src.twitter.user_not_found import TwitterUserNotFound
 
 
-class TwitterDevelopersRetriever:
+class TwitterUsersRetriever:
     def __init__(self, api_token: str) -> None:
         self.api_token = api_token
 
