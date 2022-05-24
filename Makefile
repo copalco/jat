@@ -11,12 +11,12 @@ dependencies:
 
 unit-tests:
 		@echo "Running tests"
-		python -W error:::redemptions[.*] -m unittest discover -v tests/unit
+		python -m unittest discover -v tests/unit
 		@echo
 
 integration-tests:
 		@echo "Running tests"
-		python -W error:::redemptions[.*] -m unittest discover -v tests/integration
+		python -m unittest discover -v tests/integration
 		@echo
 
 typing:
