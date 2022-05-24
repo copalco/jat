@@ -3,6 +3,7 @@ import unittest
 
 from src.github.user import GithubUser
 from src.github.user_retriever import GithubUserRetriever
+from src.github.user_not_found import GithubUserNotFound
 
 
 class GithubUserRetrieverTestCase(unittest.TestCase):
@@ -15,3 +16,9 @@ class GithubUserRetrieverTestCase(unittest.TestCase):
             user,
             user,
         )
+
+    def test_returns_no_such_user_on_not_found(self):
+        with self.assertRaises(GithubUserNotFound):
+            _ = GithubUserRetriever(os.environ["JAT_GITHUB_API_TOKEN"]).user(
+                username="usernameofnotexistinguser1234432156788765"
+            )

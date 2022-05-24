@@ -1,0 +1,2 @@
+class GithubUserNotFound(Exception):
+    pass

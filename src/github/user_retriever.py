@@ -1,7 +1,10 @@
+import http
+
 import requests
 from requests.auth import HTTPBasicAuth
 
 from src.github.user import GithubUser
+from src.github.user_not_found import GithubUserNotFound
 
 
 class GithubUserRetriever:
@@ -17,6 +20,8 @@ class GithubUserRetriever:
                 "User-Agent": "copalco",
             },
         )
+        if response.status_code == http.HTTPStatus.NOT_FOUND:
+            raise GithubUserNotFound(username)
         raw_organizations = response.json()
         return GithubUser(
             username, organizations=[org["login"] for org in raw_organizations]
