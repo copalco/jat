@@ -1,6 +1,9 @@
 import random
 import unittest
 
+import requests
+
+API_URL = "http://localhost:8080"
 
 
 class ConnectedTestCase(unittest.TestCase):
@@ -9,17 +12,17 @@ class ConnectedTestCase(unittest.TestCase):
         seed = random.randint(0, 9999999)
         first_developer_handle = f"test_{seed}"
         second_developer_handle = f"test_2_{seed}"
-        organization_name = f"org_{seed}"
+        organisation = f"org_{seed}"
         self.create_developer_on_twitter(first_developer_handle)
         self.create_developer_on_twitter(second_developer_handle)
         self.make_developers_follow_each_other(
             first_developer_handle, second_developer_handle
         )
-        self.create_organization_on_github(organization_name)
+        self.create_organisation_on_github(organisation)
         self.create_developer_on_github(first_developer_handle)
         self.create_developer_on_github(second_developer_handle)
-        self.add_developers_to_organization(
-            first_developer_handle, second_developer_handle, organization
+        self.add_developers_to_organisation(
+            first_developer_handle, second_developer_handle, organisation
         )
         self.assert_that_developers_are_connected(
             first_developer_handle, second_developer_handle
@@ -36,10 +39,10 @@ class ConnectedTestCase(unittest.TestCase):
     def create_developer_on_github(self, developer_handle: str) -> None:
         pass
 
-    def create_organization_on_github(self, name: str) -> None:
+    def create_organisation_on_github(self, name: str) -> None:
         pass
 
-    def add_developers_to_organization(
+    def add_developers_to_organisation(
         self,
         first_developer_handle: str,
         second_developer_handle: str,
@@ -50,4 +53,8 @@ class ConnectedTestCase(unittest.TestCase):
     def assert_that_developers_are_connected(
         self, first_developer_handle: str, second_developer_handle: str
     ) -> None:
+        response = requests.get(
+            f"{API_URL}/connected/realtime/{first_developer_handle}/{second_developer_handle}"
+        )
+        {"connected": True, "organisations": ["org1"]}
         assert False
