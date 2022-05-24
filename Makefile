@@ -19,6 +19,11 @@ integration-tests:
 		python -m unittest discover -v tests/integration
 		@echo
 
+acceptance-tests:
+		@echo "Running acceptance tests"
+		python -m unittest discover -v tests/acceptance
+		@echo
+
 typing:
 		@echo "Checking typing"
 		pyright
