@@ -2,6 +2,7 @@ import os
 import unittest
 
 from src.twitter.user import TwitterUser
+from src.twitter.user_not_found import TwitterUserNotFound
 from src.twitter.user_retriever import TwitterDevelopersRetriever
 
 
@@ -14,6 +15,8 @@ class TwitterDevelopersRetrieverTestCase(unittest.TestCase):
             TwitterUser(
                 "PiotrKopalko",
                 followed_by=[
+                    "JKlikowicz",
+                    "TomaszMielcarz",
                     "dbwolski",
                     "naukajazdy2",
                     "MAntykwariat",
@@ -60,6 +63,8 @@ class TwitterDevelopersRetrieverTestCase(unittest.TestCase):
                     "Weyzu",
                 ],
                 following=[
+                    "JKlikowicz",
+                    "TomaszMielcarz",
                     "dbwolski",
                     "naukajazdy2",
                     "MAntykwariat",
@@ -109,3 +114,9 @@ class TwitterDevelopersRetrieverTestCase(unittest.TestCase):
             user,
             repr(user),
         )
+
+    def test_returns_no_such_user_on_not_found(self):
+        with self.assertRaises(TwitterUserNotFound):
+            TwitterDevelopersRetriever(os.environ["JAT_TWITTER_API_TOKEN"]).user(
+                username="usernameof55787"
+            )

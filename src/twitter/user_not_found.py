@@ -1,0 +1,2 @@
+class TwitterUserNotFound(Exception):
+    pass
