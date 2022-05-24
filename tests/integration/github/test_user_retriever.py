@@ -7,7 +7,7 @@ from src.github.user_not_found import GithubUserNotFound
 
 
 class GithubUserRetrieverTestCase(unittest.TestCase):
-    def test_retrieves_user_github_user(self):
+    def test_retrieves_github_user(self):
         user = GithubUserRetriever(os.environ["JAT_GITHUB_API_TOKEN"]).user(
             username="defunkt"
         )
