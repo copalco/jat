@@ -43,8 +43,8 @@ class TwitterUsersRetriever:
         )
         user_response = serialized_user_response.json()
         if (
-                "errors" in user_response
-                and user_response["errors"][0]["title"] == "Not Found Error"
+            "errors" in user_response
+            and user_response["errors"][0]["title"] == "Not Found Error"
         ):
             raise TwitterUserNotFound(username)
         raw_user = user_response["data"]
