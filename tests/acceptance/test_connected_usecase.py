@@ -2,8 +2,8 @@ import random
 import unittest
 
 
-class ConnectedTestCase(unittest.TestCase):
 
+class ConnectedTestCase(unittest.TestCase):
     @unittest.expectedFailure
     def test_developers_which_are_connected(self) -> None:
         seed = random.randint(0, 9999999)
@@ -18,8 +18,12 @@ class ConnectedTestCase(unittest.TestCase):
         self.create_organization_on_github(organization_name)
         self.create_developer_on_github(first_developer_handle)
         self.create_developer_on_github(second_developer_handle)
-        self.add_developers_to_organization(first_developer_handle, second_developer_handle, organization_name)
-        self.assert_that_developers_are_connected(first_developer_handle, second_developer_handle)
+        self.add_developers_to_organization(
+            first_developer_handle, second_developer_handle, organization
+        )
+        self.assert_that_developers_are_connected(
+            first_developer_handle, second_developer_handle
+        )
 
     def create_developer_on_twitter(self, developer_handle: str) -> None:
         pass
@@ -36,12 +40,14 @@ class ConnectedTestCase(unittest.TestCase):
         pass
 
     def add_developers_to_organization(
-            self, first_developer_handle: str,
-                                       second_developer_handle: str,
-                                       organization_name: str) -> None:
+        self,
+        first_developer_handle: str,
+        second_developer_handle: str,
+        organization: str,
+    ) -> None:
         pass
 
     def assert_that_developers_are_connected(
-            self, first_developer_handle: str, second_developer_handle: str
+        self, first_developer_handle: str, second_developer_handle: str
     ) -> None:
         assert False
