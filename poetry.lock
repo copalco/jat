@@ -136,7 +136,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pyright"
-version = "1.1.248"
+version = "1.1.249"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
@@ -267,8 +267,8 @@ pyflakes = [
     {file = "pyflakes-2.4.0.tar.gz", hash = "sha256:05a85c2872edf37a4ed30b0cce2f6093e1d0581f8c19d7393122da7e25b2b24c"},
 ]
 pyright = [
-    {file = "pyright-1.1.248-py3-none-any.whl", hash = "sha256:385084c1eaea56ee7b727d6f83a35774abe35036e37d527a692a9842af4c754d"},
-    {file = "pyright-1.1.248.tar.gz", hash = "sha256:88c9be21af5e21749d4ca4e6a605800bdc0848312eac9ff7cc584b401d9696d8"},
+    {file = "pyright-1.1.249-py3-none-any.whl", hash = "sha256:f30138654f57d041e4af27e71a737de502d7475c5b588ab5a9990c1a30a0b6f9"},
+    {file = "pyright-1.1.249.tar.gz", hash = "sha256:b7989a32462131b5edb1940944b6e1cfb660ae490c3a86c3221a39a643eb8663"},
 ]
 requests = [
     {file = "requests-2.27.1-py2.py3-none-any.whl", hash = "sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d"},
