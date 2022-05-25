@@ -1,4 +1,4 @@
-# JobAndTalents Developers Connector
+# Job And Talent Developers Connector
 
 ## Installation
 
