@@ -117,6 +117,6 @@ class TwitterDevelopersRetrieverTestCase(unittest.TestCase):
 
     def test_returns_no_such_user_on_not_found(self):
         with self.assertRaises(TwitterUserNotFound):
-            TwitterUsersRetriever(os.environ["JAT_TWITTER_API_TOKEN"]).user(
+            _ = TwitterUsersRetriever(os.environ["JAT_TWITTER_API_TOKEN"]).user(
                 username="usernameof55787"
             )
