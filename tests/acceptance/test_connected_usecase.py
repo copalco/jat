@@ -25,7 +25,7 @@ class ConnectedTestCase(unittest.TestCase):
             first_developer_handle, second_developer_handle, organisation
         )
         self.assert_that_developers_are_connected(
-            first_developer_handle, second_developer_handle
+            first_developer_handle, second_developer_handle, organisation
         )
 
     def create_developer_on_twitter(self, developer_handle: str) -> None:
@@ -51,10 +51,15 @@ class ConnectedTestCase(unittest.TestCase):
         pass
 
     def assert_that_developers_are_connected(
-        self, first_developer_handle: str, second_developer_handle: str
+        self,
+        first_developer_handle: str,
+        second_developer_handle: str,
+        organization: str,
     ) -> None:
         response = requests.get(
             f"{API_URL}/connected/realtime/{first_developer_handle}/{second_developer_handle}"
         )
-        {"connected": True, "organisations": ["org1"]}
-        assert False
+
+        self.assertEqual(
+            response.json(), {"connected": True, "organisations": [organization]}
+        )
