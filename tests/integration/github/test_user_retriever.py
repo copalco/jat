@@ -2,8 +2,8 @@ import os
 import unittest
 
 from src.github.user import GithubUser
-from src.github.user_retriever import GithubUserRetriever
 from src.github.user_not_found import GithubUserNotFound
+from src.github.user_retriever import GithubUserRetriever
 
 
 class GithubUserRetrieverTestCase(unittest.TestCase):
