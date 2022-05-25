@@ -1,7 +1,15 @@
+from typing import TypedDict
+
 import requests
 
 from src.twitter.user import TwitterUser
 from src.twitter.user_not_found import TwitterUserNotFound
+
+
+class RawUser(TypedDict):
+    id: str
+    name: str
+    username: str
 
 
 class TwitterUsersRetriever:
@@ -18,7 +26,7 @@ class TwitterUsersRetriever:
             following=following,
         )
 
-    def _followed_by(self, user):
+    def _followed_by(self, user: RawUser) -> list[str]:
         following_response = requests.get(
             f"https://api.twitter.com/2/users/{user['id']}/followers",
             headers={"authorization": f"Bearer {self.api_token}"},
@@ -27,16 +35,16 @@ class TwitterUsersRetriever:
         following = [following["username"] for following in raw_following]
         return following
 
-    def _followers_of(self, raw_user):
+    def _followers_of(self, user: RawUser) -> list[str]:
         followers_response = requests.get(
-            f"https://api.twitter.com/2/users/{raw_user['id']}/followers",
+            f"https://api.twitter.com/2/users/{user['id']}/followers",
             headers={"authorization": f"Bearer {self.api_token}"},
         )
         raw_followers = followers_response.json()["data"]
         followers = [follower["username"] for follower in raw_followers]
         return followers
 
-    def _user(self, username):
+    def _user(self, username: str) -> RawUser:
         serialized_user_response = requests.get(
             f"https://api.twitter.com/2/users/by/username/{username}",
             headers={"authorization": f"Bearer {self.api_token}"},
