@@ -1,0 +1,2 @@
+class AreDevelopersConnectedQuery:
+    pass
