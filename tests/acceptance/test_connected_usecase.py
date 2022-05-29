@@ -59,4 +59,4 @@ class ConnectedTestCase(unittest.TestCase):
             f"{API_URL}/connected/realtime/{first_developer_handle}/{second_developer_handle}"
         )
 
-        self.assertEqual(response.json(), {"connected": True, "organisations": []})
+        self.assertEqual(response.json(), {"connected": True, "organizations": []})

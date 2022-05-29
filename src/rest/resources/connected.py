@@ -6,4 +6,4 @@ from src.rest.resource import Resource
 
 class StubResource(Resource):
     def on_get(self, request: Request) -> Response:
-        return JSONResponse({"connected": True, "organisations": []})
+        return JSONResponse({"connected": True, "organizations": []})
