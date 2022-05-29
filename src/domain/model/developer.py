@@ -18,7 +18,7 @@ class Developer:
         )
 
     def is_following(self, developer: "Developer") -> bool:
-        return True
+        return developer.handle in self.follows
 
     def _share_at_least_one_organization(self, developer: "Developer") -> bool:
         return bool(set(self.organizations).intersection(developer.organizations))
