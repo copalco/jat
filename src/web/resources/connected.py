@@ -7,3 +7,8 @@ from src.web.resource import Resource
 class StubResource(Resource):
     def on_get(self, request: Request) -> Response:
         return JSONResponse({"connected": True, "organizations": []})
+
+
+class ConnectedResource(Resource):
+    def on_get(self, request: Request) -> Response:
+        return JSONResponse({"connected": False})
