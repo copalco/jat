@@ -1,5 +1,8 @@
 [tool.poetry]
 name = "jat"
+packages = [
+    { include = "src" }
+]
 version = "0.1.0"
 description = "API for checking if developers are connected"
 authors = ["Piotr Kopalko <copalco@gmail.com>"]
@@ -7,7 +10,8 @@ authors = ["Piotr Kopalko <copalco@gmail.com>"]
 [tool.poetry.dependencies]
 python = "3.10"
 requests = "^2.27.1"
-falcon = "^3.1.0"
+starlette = "^0.20.1"
+uvicorn = "^0.17.6"
 
 [tool.poetry.dev-dependencies]
 pyright = "^1.1.248"

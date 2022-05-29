@@ -1,14 +1,27 @@
-import json
+from typing import Callable
 
-import falcon
+from starlette.applications import Starlette
+from starlette.requests import Request
+from starlette.responses import Response
+from starlette.routing import Route
+
+from src.rest.resource import Resource
+from src.rest.resources.connected import StubResource
 
 
-class StubResource:
-    def on_get(self, request: falcon.Request, response: falcon.Response, first_developer_handle: str, second_developer_handle: str) -> None:
-        response.media = {"connected": True}
+def resource_factory(resource: Resource) -> Callable[[Request], Response]:
+    def view_adapter(request: Request) -> Response:
+        return resource.on_get(request)
+
+    return view_adapter
 
 
-def create_app() -> falcon.API:
-    web_api = falcon.API()
-    web_api.add_route("/connected/realtime/{first_developer_handle}/{second_developer_handle}", StubResource())
+def create_app() -> Starlette:
+    routes = [
+        Route(
+            "/connected/realtime/{first_developer_handle}/{second_developer_handle}",
+            resource_factory(StubResource()),
+        ),
+    ]
+    web_api = Starlette(routes=routes)
     return web_api

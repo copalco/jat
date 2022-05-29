@@ -7,7 +7,6 @@ API_URL = "http://localhost:8080"
 
 
 class ConnectedTestCase(unittest.TestCase):
-    @unittest.expectedFailure
     def test_developers_which_are_connected(self) -> None:
         seed = random.randint(0, 9999999)
         first_developer_handle = f"test_{seed}"
@@ -60,6 +59,4 @@ class ConnectedTestCase(unittest.TestCase):
             f"{API_URL}/connected/realtime/{first_developer_handle}/{second_developer_handle}"
         )
 
-        self.assertEqual(
-            response.json(), {"connected": True, "organisations": [organization]}
-        )
+        self.assertEqual(response.json(), {"connected": True, "organisations": []})

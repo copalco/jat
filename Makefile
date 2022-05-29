@@ -24,6 +24,9 @@ acceptance-tests:
 		python -m unittest discover -v tests/acceptance
 		@echo
 
+run-server:
+	uvicorn src.main.web:create_app --host "127.0.0.1"  --port 8080 --log-level info
+
 typing:
 		@echo "Checking typing"
 		pyright
