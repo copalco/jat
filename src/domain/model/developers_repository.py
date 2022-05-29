@@ -1,0 +1,2 @@
+class DevelopersRepository:
+    pass
