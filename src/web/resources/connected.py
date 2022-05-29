@@ -16,7 +16,12 @@ class ConnectedResource(Resource):
         self.query_handler = query_handler
 
     def on_get(self, request: Request) -> Response:
-        relation = self.query_handler.handle(AreDevelopersConnectedQuery())
+        relation = self.query_handler.handle(
+            AreDevelopersConnectedQuery(
+                request.path_params["first_developer_handle"],
+                request.path_params["second_developer_handle"],
+            )
+        )
         if relation.connected():
             return JSONResponse(
                 {"connected": True, "organisations": relation.organisations()}

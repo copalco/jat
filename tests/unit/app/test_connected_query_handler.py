@@ -9,6 +9,6 @@ from src.domain.model.developers_repository import DevelopersRepository
 class ConnectedQueryHandlerTestCase(unittest.TestCase):
     def test_always_results_with_developers_not_being_connected(self) -> None:
         result = ConnectedQueryHandler(DevelopersRepository()).handle(
-            AreDevelopersConnectedQuery()
+            AreDevelopersConnectedQuery(first_developer="dev1", second_developer="dev2")
         )
         self.assertEqual(DevelopersNotConnected().connected(), result.connected())

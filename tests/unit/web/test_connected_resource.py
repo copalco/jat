@@ -15,15 +15,15 @@ from src.web.resources.connected import ConnectedResource
 
 class FakeQueryHandler(ConnectedQueryHandler):
     def __init__(self) -> None:
-        self._connected = False
+        self._connected = ["dev1", "dev2"]
 
     def handle(self, query: AreDevelopersConnectedQuery) -> DevelopersRelation:
-        if self._connected:
+        if (
+            query.first_developer in self._connected
+            and query.second_developer in self._connected
+        ):
             return DevelopersConnected(["org1", "org2"])
         return DevelopersNotConnected()
-
-    def developers_are_connected(self) -> None:
-        self._connected = True
 
 
 class ConnectedResourceTestCase(unittest.TestCase):
@@ -47,14 +47,13 @@ class ConnectedResourceTestCase(unittest.TestCase):
 
     def test_returns_true_for_connected_developers(self) -> None:
         resource = ConnectedResource(self.query_handler)
-        self.query_handler.developers_are_connected()
         result = resource.on_get(
             Request(
                 scope={
                     "type": "http",
                     "path_params": {
                         "first_developer_handle": "dev1",
-                        "second_developer_handle": "dev22",
+                        "second_developer_handle": "dev2",
                     },
                 }
             )
