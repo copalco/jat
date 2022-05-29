@@ -5,8 +5,8 @@ from starlette.requests import Request
 from starlette.responses import Response
 from starlette.routing import Route
 
-from src.rest.resource import Resource
-from src.rest.resources.connected import StubResource
+from src.web.resource import Resource
+from src.web.resources.connected import StubResource
 
 
 def resource_factory(resource: Resource) -> Callable[[Request], Response]:

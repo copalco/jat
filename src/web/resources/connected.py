@@ -1,7 +1,7 @@
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
-from src.rest.resource import Resource
+from src.web.resource import Resource
 
 
 class StubResource(Resource):
