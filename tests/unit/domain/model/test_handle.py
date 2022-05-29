@@ -4,6 +4,9 @@ from src.domain.model.handle import Handle
 
 
 class HandleTestCase(unittest.TestCase):
+    def test_is_hashable(self) -> None:
+        self.assertEqual(hash(Handle("test")), hash("test"))
+
     def test_handles_are_equal(self) -> None:
         self.assertEqual(Handle("test"), Handle("test"))
 
