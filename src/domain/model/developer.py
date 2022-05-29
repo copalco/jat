@@ -6,6 +6,8 @@ from src.domain.model.handle import Handle
 @dataclass
 class Developer:
     handle: Handle
+    follows: list[Handle]
+    followed_by: list[Handle]
     organizations: list[str]
 
     def connected(self, developer: "Developer") -> bool:
