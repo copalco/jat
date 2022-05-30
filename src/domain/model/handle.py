@@ -1,9 +1,9 @@
 class Handle:
     def __init__(self, value: str) -> None:
         if len(value) > 15:
-            raise ValueError("Handle can have up to 15 characters")
-        if len(value) < 4:
-            raise ValueError("Handle must have at least 4 characters")
+            raise ValueError(f"Handle can have up to 15 characters: {value!r}")
+        if len(value) < 2:
+            raise ValueError(f"Handle must have at least 2 characters: {value!r}")
         self.value = value
 
     def __eq__(self, other: object) -> bool:

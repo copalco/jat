@@ -20,15 +20,16 @@ class HandleTestCase(unittest.TestCase):
         self.assertNotEqual(Handle("test"), SomethingElse())
 
     def test_handle_cannot_be_longer_than_15_characters(self) -> None:
+        value = "test1" * 3 + "1"
         with self.assertRaises(ValueError) as exception_info:
-            _ = Handle("test1" * 3 + "1")
+            _ = Handle(value)
         self.assertEqual(
-            str(exception_info.exception), "Handle can have up to 15 characters"
+            str(exception_info.exception), f"Handle can have up to 15 characters: {value!r}"
         )
 
-    def test_handle_cannot_be_shorter_than_4_characters(self) -> None:
+    def test_handle_cannot_be_shorter_than_2_characters(self) -> None:
         with self.assertRaises(ValueError) as exception_info:
-            _ = Handle("tes")
+            _ = Handle("t")
         self.assertEqual(
-            str(exception_info.exception), "Handle must have at least 4 characters"
+            str(exception_info.exception), "Handle must have at least 2 characters: 't'"
         )
