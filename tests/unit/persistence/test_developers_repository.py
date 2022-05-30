@@ -1,6 +1,6 @@
 import unittest
 
-from src.developers.developers_repository import ExterlnalDevelopersRepository
+from src.persistence.developers_repository import ExternalDevelopersRepository
 from src.domain.model.developer import Developer
 from src.domain.model.developer_not_found import DeveloperNotFound
 from src.domain.model.handle import Handle
@@ -42,13 +42,13 @@ class FakeTwitterRetriever(TwitterUsersRetriever):
             raise TwitterUserNotFound()
 
 
-class DevelopersRepositoryTestCase(unittest.TestCase):
+class ExternalDevelopersRepositoryTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.twitter_retriever = FakeTwitterRetriever()  # type: ignore
         self.github_retriever = FakeGithubRetriever()  # type: ignore
 
     def test_retrieves_user_from_guthub_and_twitter_retrievers(self) -> None:
-        repository = ExterlnalDevelopersRepository(
+        repository = ExternalDevelopersRepository(
             self.twitter_retriever, self.github_retriever
         )
         self.twitter_retriever.add(
@@ -73,7 +73,7 @@ class DevelopersRepositoryTestCase(unittest.TestCase):
     def test_returns_developer_error_if_user_is_not_present_in_any_service(
         self,
     ) -> None:
-        repository = ExterlnalDevelopersRepository(
+        repository = ExternalDevelopersRepository(
             self.twitter_retriever, self.github_retriever
         )
         with self.assertRaises(DeveloperNotFound) as exception_info:

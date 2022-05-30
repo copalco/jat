@@ -9,7 +9,7 @@ from src.twitter.user_not_found import TwitterUserNotFound
 from src.twitter.user_retriever import TwitterUsersRetriever
 
 
-class ExterlnalDevelopersRepository(DevelopersRepository):
+class ExternalDevelopersRepository(DevelopersRepository):
     def __init__(
         self,
         twitter_retriever: TwitterUsersRetriever,
