@@ -31,11 +31,19 @@ class TwitterUsersRetriever:
 
     def _follows(self, user: RawUser) -> list[str]:
         followers_response = requests.get(
-            f"https://api.twitter.com/2/users/{user['id']}/followers",
+            f"https://api.twitter.com/2/users/{user['id']}/following?max_results=1000",
             headers={"authorization": f"Bearer {self.api_token}"},
         )
         raw_followers = followers_response.json()["data"]
         followers = [follower["username"] for follower in raw_followers]
+        next_token = followers_response.json()["meta"].get("next_token")
+        if next_token:
+            followers_response = requests.get(
+                f"https://api.twitter.com/2/users/{user['id']}/following?max_results=1000",
+                headers={"authorization": f"Bearer {self.api_token}"},
+            )
+            raw_followers = followers_response.json()["data"]
+            followers.extend(follower["username"] for follower in raw_followers)
         return followers
 
     def _user(self, username: str) -> RawUser:
