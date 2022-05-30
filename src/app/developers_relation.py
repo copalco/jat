@@ -7,7 +7,7 @@ class DevelopersRelation(abc.ABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def organizations(self) -> set[str]:
+    def organizations(self) -> list[str]:
         raise NotImplementedError()
 
 
@@ -18,13 +18,13 @@ class DevelopersConnected(DevelopersRelation):
     def connected(self) -> bool:
         return True
 
-    def organizations(self) -> set[str]:
-        return self._organizations
+    def organizations(self) -> list[str]:
+        return sorted(list(self._organizations))
 
 
 class DevelopersNotConnected(DevelopersRelation):
     def connected(self) -> bool:
         return False
 
-    def organizations(self) -> set[str]:
+    def organizations(self) -> list[str]:
         raise NotImplementedError()
