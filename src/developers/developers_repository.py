@@ -15,9 +15,10 @@ class DevelopersRepository:
 
     def get(self, handle: Handle) -> Developer:
         twitter_user = self._twitter_retriever.user(str(handle))
+        github_user = self._github_retriever.user(str(handle))
         return Developer(
             handle,
             follows=[Handle(tu) for tu in twitter_user.following],
             followed_by=[Handle(tu) for tu in twitter_user.followed_by],
-            organizations=[],
+            organizations=github_user.organizations,
         )

@@ -45,13 +45,16 @@ class DevelopersRepositoryTestCase(unittest.TestCase):
                 "dev1", followed_by=["dev2", "dev3"], following=["dev2", "dev5"]
             )
         )
+        self.github_retriever.add(
+            GithubUser("dev1", organizations=["org1", "org2", "org3"])
+        )
         developer = repository.get(Handle("dev1"))
         self.assertEqual(
             Developer(
                 Handle("dev1"),
                 follows=[Handle("dev2"), Handle("dev5")],
                 followed_by=[Handle("dev2"), Handle("dev3")],
-                organizations=[],
+                organizations=["org1", "org2", "org3"],
             ),
             developer,
         )
