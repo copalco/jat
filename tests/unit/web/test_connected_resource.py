@@ -38,7 +38,7 @@ class FakeQueryHandler(ConnectedQueryHandler):
 class ConnectedResourceTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.query_handler = FakeQueryHandler()  # type: ignore
-        self.resource = ConnectedResource(self.query_handler) # type: ignore
+        self.resource = ConnectedResource(self.query_handler)  # type: ignore
 
     def test_returns_false_for_not_connected_developers(self) -> None:
         result = self.resource.on_get(
@@ -74,7 +74,10 @@ class ConnectedResourceTestCase(unittest.TestCase):
     def test_returns_errors_list_on_errors(self) -> None:
         self.query_handler.fail_with(
             Errors(
-                [DeveloperNotFound(Handle("dev1"), absent_on=["twitter", "github"]), DeveloperNotFound(Handle("dev2"), absent_on=["twitter"])]
+                [
+                    DeveloperNotFound(Handle("dev1"), absent_on=["twitter", "github"]),
+                    DeveloperNotFound(Handle("dev2"), absent_on=["twitter"]),
+                ]
             )
         )
         result = self.resource.on_get(
@@ -89,13 +92,14 @@ class ConnectedResourceTestCase(unittest.TestCase):
             )
         )
         self.assertEqual(
-            JSONResponse({
-                "errors": [
-                    "dev1 is no valid user in github",
-                    "dev1 is no valid user in twitter",
-                    "dev2 is no valid user in twitter",
-                ]
-            }
+            JSONResponse(
+                {
+                    "errors": [
+                        "dev1 is no valid user in github",
+                        "dev1 is no valid user in twitter",
+                        "dev2 is no valid user in twitter",
+                    ]
+                }
             ).body,
             result.body,
         )

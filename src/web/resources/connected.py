@@ -29,9 +29,7 @@ class ConnectedResource(Resource):
             for error in e.args[0]:
                 for service in error.absent_on:
                     errors.append(f"{error.handle} is no valid user in {service}")
-            return JSONResponse({
-                "errors": sorted(errors)
-            })
+            return JSONResponse({"errors": sorted(errors)})
         else:
             if relation.connected():
                 return JSONResponse(
