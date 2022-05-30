@@ -37,6 +37,5 @@ class ExternalDevelopersRepository(DevelopersRepository):
         return Developer(
             handle,
             follows=[Handle(tu) for tu in twitter_user.follows],
-            followed_by=[Handle(tu) for tu in twitter_user.followed_by],
             organizations=github_user.organizations,
         )

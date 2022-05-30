@@ -14,13 +14,11 @@ class ConnectionTestCase(unittest.TestCase):
         developer1 = Developer(
             Handle("dev1"),
             follows=[Handle("dev3")],
-            followed_by=[Handle("dev0")],
             organizations=["a", "b", "c"],
         )
         developer2 = Developer(
             Handle("dev2"),
             follows=[Handle("dev3")],
-            followed_by=[Handle("dev5")],
             organizations=["a", "z"],
         )
         with freezegun.freeze_time("2022-05-30"):
@@ -39,13 +37,11 @@ class ConnectionTestCase(unittest.TestCase):
         developer1 = Developer(
             Handle("dev1"),
             follows=[Handle("dev2")],
-            followed_by=[Handle("dev2")],
             organizations=["a", "b", "c"],
         )
         developer2 = Developer(
             Handle("dev2"),
             follows=[Handle("dev1")],
-            followed_by=[Handle("dev1")],
             organizations=["a", "z"],
         )
         with freezegun.freeze_time("2022-05-30"):

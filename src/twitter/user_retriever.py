@@ -22,7 +22,6 @@ class TwitterUsersRetriever:
         follows = self._follows(user)
         return TwitterUser(
             username,
-            followed_by=followers,
             follows=follows,
         )
 

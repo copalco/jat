@@ -51,11 +51,7 @@ class ExternalDevelopersRepositoryTestCase(unittest.TestCase):
         repository = ExternalDevelopersRepository(
             self.twitter_retriever, self.github_retriever
         )
-        self.twitter_retriever.add(
-            TwitterUser(
-                "dev1", followed_by=["dev2", "dev3"], following=["dev2", "dev5"]
-            )
-        )
+        self.twitter_retriever.add(TwitterUser("dev1", follows=["dev2", "dev5"]))
         self.github_retriever.add(
             GithubUser("dev1", organizations=["org1", "org2", "org3"])
         )
@@ -64,7 +60,6 @@ class ExternalDevelopersRepositoryTestCase(unittest.TestCase):
             Developer(
                 Handle("dev1"),
                 follows=[Handle("dev2"), Handle("dev5")],
-                followed_by=[Handle("dev2"), Handle("dev3")],
                 organizations=["org1", "org2", "org3"],
             ),
             developer,

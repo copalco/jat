@@ -169,7 +169,6 @@ class TwitterDevelopersRetrieverTestCase(unittest.TestCase):
                     "unclebobmartin",
                     "KentBeck",
                 ],
-                followed_by=[],
             ),
             user,
             repr(user),

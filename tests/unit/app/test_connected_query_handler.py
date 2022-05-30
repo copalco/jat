@@ -52,7 +52,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev1"),
                 follows=[Handle("dev3")],
-                followed_by=[Handle("dev2")],
                 organizations=["a", "b", "c"],
             )
         )
@@ -60,7 +59,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev2"),
                 follows=[Handle("dev1")],
-                followed_by=[Handle("dev3")],
                 organizations=["a", "b", "c"],
             )
         )
@@ -74,7 +72,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev1"),
                 follows=[Handle("dev2")],
-                followed_by=[Handle("dev2")],
                 organizations=["a", "b", "c"],
             )
         )
@@ -82,7 +79,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev2"),
                 follows=[Handle("dev1")],
-                followed_by=[Handle("dev1")],
                 organizations=["a", "b", "c"],
             )
         )
@@ -105,7 +101,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev1"),
                 follows=[Handle("dev2")],
-                followed_by=[Handle("dev2")],
                 organizations=["a", "b", "c"],
             )
         )
@@ -113,7 +108,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev2"),
                 follows=[Handle("dev1")],
-                followed_by=[Handle("dev1")],
                 organizations=["a", "b", "c"],
             )
         )
@@ -142,7 +136,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev1"),
                 follows=[Handle("dev2")],
-                followed_by=[Handle("dev2")],
                 organizations=["a", "b", "c"],
             )
         )
@@ -150,7 +143,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             Developer(
                 Handle("dev2"),
                 follows=[Handle("dev1")],
-                followed_by=[Handle("dev1")],
                 organizations=["a", "b", "c"],
             )
         )

@@ -37,13 +37,11 @@ class EventSourcedRedemptionRepositoryTestCase(unittest.TestCase):
                 Developer(
                     first_handle,
                     follows=[second_handle, Handle("dev5")],
-                    followed_by=[Handle("dev9"), Handle("dev3")],
                     organizations=["org1", "org2", "org3"],
                 ),
                 Developer(
                     second_handle,
                     follows=[Handle("dev3"), Handle("dev5")],
-                    followed_by=[second_handle, Handle("dev3")],
                     organizations=["org1", "org2", "org3"],
                 ),
             )
