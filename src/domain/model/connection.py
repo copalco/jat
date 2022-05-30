@@ -45,6 +45,9 @@ class Connection:
     def _shared_organizations(self) -> set[str]:
         return set(self._first.organizations).intersection(self._second.organizations)
 
+    def shared_organizations(self) -> list[str]:
+        return list(self._shared_organizations())
+
     def _connected(self) -> None:
         event = DevelopersAreConnected(
             handles=self.handles,

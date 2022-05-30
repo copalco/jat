@@ -90,8 +90,8 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             AreDevelopersConnectedQuery(first_developer="dev1", second_developer="dev2")
         )
         self.assertEqual(
-            DevelopersConnected(organizations={"a", "b", "c"}).connected(),
-            result.connected(),
+            DevelopersConnected(organizations={"a", "b", "c"}),
+            result,
         )
 
     def test_on_developer_erros_collects_them_and_raises_as_one(self) -> None:
