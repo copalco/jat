@@ -25,7 +25,7 @@ acceptance-tests:
 		@echo
 
 run-server:
-	uvicorn src.main.web:create_app --host "127.0.0.1"  --port 8080 --log-level info
+	uvicorn src.main.web:create_app --host "127.0.0.1"  --port 8080 --log-level info --reload
 
 typing:
 		@echo "Checking typing"
