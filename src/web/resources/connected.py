@@ -25,7 +25,7 @@ class ConnectedResource(Resource):
                 )
             )
         except Errors as e:
-            errors = []
+            errors: list[str] = []
             for error in e.args[0]:
                 for service in error.absent_on:
                     errors.append(f"{error.handle} is no valid user in {service}")
