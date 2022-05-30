@@ -38,7 +38,7 @@ class FakeQueryHandler(ConnectedQueryHandler):
 class ConnectedResourceTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.query_handler = FakeQueryHandler()  # type: ignore
-        self.resource = ConnectedResource(self.query_handler)
+        self.resource = ConnectedResource(self.query_handler) # type: ignore
 
     def test_returns_false_for_not_connected_developers(self) -> None:
         result = self.resource.on_get(
