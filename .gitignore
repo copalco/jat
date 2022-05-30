@@ -1,0 +1,17 @@
+# data storage
+data/
+
+# IDE/editors
+.idea
+
+# python
+*.egg-info
+.eggs/
+*.pyc
+
+# OS
+.DS_Store
+*.swp
+
+# pyenv
+.python-version
