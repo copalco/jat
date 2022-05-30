@@ -6,6 +6,7 @@ from src.domain.events.events import (
     Event,
 )
 from src.domain.model.developer import Developer
+from src.domain.model.handle import Handle
 
 
 class Connection:
@@ -46,7 +47,7 @@ class Connection:
 
     def _connected(self) -> None:
         event = DevelopersAreConnected(
-            handles=(self._first.handle, self._second.handle),
+            handles=self.handles,
             registered_at=datetime.datetime.utcnow(),
             organizations=self._shared_organizations(),
         )
@@ -62,7 +63,7 @@ class Connection:
 
     def _not_connected(self):
         event = DevelopersAreNotConnected(
-            handles=(self._first.handle, self._second.handle),
+            handles=self.handles,
             registered_at=datetime.datetime.utcnow(),
         )
         self._apply(event)
@@ -70,3 +71,7 @@ class Connection:
 
     def changes(self) -> list[Event]:
         return self._changes
+
+    @property
+    def handles(self) -> tuple[Handle, Handle]:
+        return (self._first.handle, self._second.handle)
