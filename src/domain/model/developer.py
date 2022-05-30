@@ -12,12 +12,12 @@ class Developer:
 
     def connected(self, developer: "Developer") -> bool:
         return (
-            developer.is_following(self)
-            and self.is_following(developer)
+            developer.is_following_on_twitter(self)
+            and self.is_following_on_twitter(developer)
             and self._share_at_least_one_organization(developer)
         )
 
-    def is_following(self, developer: "Developer") -> bool:
+    def is_following_on_twitter(self, developer: "Developer") -> bool:
         return developer.handle in self.follows
 
     def _share_at_least_one_organization(self, developer: "Developer") -> bool:
