@@ -21,6 +21,14 @@ class DevelopersConnected(DevelopersRelation):
     def organizations(self) -> list[str]:
         return self._organizations
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, DevelopersConnected):
+            return NotImplemented
+        if self.connected() != other.connected():
+            return False
+        else:
+            return self.organizations() == other.organizations()
+
 
 class DevelopersNotConnected(DevelopersRelation):
     def connected(self) -> bool:
