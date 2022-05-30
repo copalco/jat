@@ -46,6 +46,7 @@ class Connection:
 
     def _connected(self) -> None:
         event = DevelopersAreConnected(
+            handles=(self._first.handle, self._second.handle),
             registered_at=datetime.datetime.utcnow(),
             organizations=self._shared_organizations(),
         )
@@ -60,7 +61,10 @@ class Connection:
             self._organizations = event.organizations
 
     def _not_connected(self):
-        event = DevelopersAreNotConnected(registered_at=datetime.datetime.utcnow())
+        event = DevelopersAreNotConnected(
+            handles=(self._first.handle, self._second.handle),
+            registered_at=datetime.datetime.utcnow(),
+        )
         self._apply(event)
         self._changes.append(event)
 

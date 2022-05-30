@@ -26,7 +26,12 @@ class ConnectionTestCase(unittest.TestCase):
         with freezegun.freeze_time("2022-05-30"):
             connection = Connection.register(developer1, developer2)
         self.assertEqual(
-            [DevelopersAreNotConnected(registered_at=datetime.datetime(2022, 5, 30))],
+            [
+                DevelopersAreNotConnected(
+                    handles=(Handle("dev1"), Handle("dev2")),
+                    registered_at=datetime.datetime(2022, 5, 30),
+                )
+            ],
             connection.changes(),
         )
 
@@ -48,7 +53,9 @@ class ConnectionTestCase(unittest.TestCase):
         self.assertEqual(
             [
                 DevelopersAreConnected(
-                    registered_at=datetime.datetime(2022, 5, 30), organizations={"a"}
+                    handles=(Handle("dev1"), Handle("dev2")),
+                    registered_at=datetime.datetime(2022, 5, 30),
+                    organizations={"a"},
                 )
             ],
             connection.changes(),
