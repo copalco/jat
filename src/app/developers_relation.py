@@ -12,14 +12,14 @@ class DevelopersRelation(abc.ABC):
 
 
 class DevelopersConnected(DevelopersRelation):
-    def __init__(self, organizations: set[str]) -> None:
+    def __init__(self, organizations: list[str]) -> None:
         self._organizations = organizations
 
     def connected(self) -> bool:
         return True
 
     def organizations(self) -> list[str]:
-        return sorted(list(self._organizations))
+        return self._organizations
 
 
 class DevelopersNotConnected(DevelopersRelation):

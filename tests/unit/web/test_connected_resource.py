@@ -22,7 +22,7 @@ class FakeQueryHandler(ConnectedQueryHandler):
             query.first_developer in self._connected
             and query.second_developer in self._connected
         ):
-            return DevelopersConnected({"org1", "org2"})
+            return DevelopersConnected(["org1", "org2"])
         return DevelopersNotConnected()
 
 
