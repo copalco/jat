@@ -18,15 +18,11 @@ class TwitterUsersRetriever:
 
     def user(self, username: str) -> TwitterUser:
         user = self._user(username)
-        followers = self._followed_by(user)
         follows = self._follows(user)
         return TwitterUser(
             username,
             follows=follows,
         )
-
-    def _followed_by(self, user: RawUser) -> list[str]:
-        return []
 
     def _follows(self, user: RawUser) -> list[str]:
         followers_response = requests.get(
