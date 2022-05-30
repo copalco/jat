@@ -24,7 +24,8 @@ class HandleTestCase(unittest.TestCase):
         with self.assertRaises(ValueError) as exception_info:
             _ = Handle(value)
         self.assertEqual(
-            str(exception_info.exception), f"Handle can have up to 15 characters: {value!r}"
+            str(exception_info.exception),
+            f"Handle can have up to 15 characters: {value!r}",
         )
 
     def test_handle_cannot_be_shorter_than_2_characters(self) -> None:
