@@ -146,7 +146,7 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
                 organizations=["a", "b", "c"],
             )
         )
-        result = self.query_handler.handle(
+        _ = self.query_handler.handle(
             AreDevelopersConnectedQuery(first_developer="dev1", second_developer="dev2")
         )
         self.assertTrue(
