@@ -5,9 +5,9 @@ from src.app.developers_relation import (
     DevelopersRelation,
 )
 from src.app.query_handler import QueryHandler
+from src.domain.model.connection import Connection
 from src.domain.model.developers_repository import DevelopersRepository
 from src.domain.model.handle import Handle
-from src.domain.model.connection import Connection
 
 
 class ConnectedQueryHandler(
