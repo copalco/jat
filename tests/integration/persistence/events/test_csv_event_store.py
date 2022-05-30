@@ -6,7 +6,7 @@ from src.domain.events.events import DevelopersAreConnected, DevelopersAreNotCon
 from src.domain.events.stream import EventStream
 from src.domain.events.stream_id import EventStreamId
 from src.domain.model.handle import Handle
-from src.persistence.events.csv_event_store import CsvEventStore
+from src.persistence.events.csv_event_store import CSVEventStore
 
 
 class CsvEventStoreTestCase(unittest.TestCase):
@@ -27,6 +27,6 @@ class CsvEventStoreTestCase(unittest.TestCase):
                 DevelopersAreNotConnected(registered_at=after, handles=handles),
             ],
         )
-        store = CsvEventStore(f"{dir.name}/events.csv")
+        store = CSVEventStore(f"{dir.name}/events.csv")
         store.store(event_stream)
         _ = store.withdraw(event_stream_id)

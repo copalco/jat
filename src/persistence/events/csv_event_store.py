@@ -6,7 +6,7 @@ from src.domain.events.stream import EventStream
 from src.domain.events.stream_id import EventStreamId
 
 
-class CsvEventStore(EventStore):
+class CSVEventStore(EventStore):
     def __init__(self, filepath: str) -> None:
         self.filepath = filepath
 
