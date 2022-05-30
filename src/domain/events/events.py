@@ -23,7 +23,7 @@ class DevelopersAreConnected(Event):
 
     def to_string(self) -> list[str]:
         result = super().to_string()
-        result.append(str(self.handles))
+        result.append(f"{self.handles[0]}-{self.handles[1]}")
         result.append(",".join(self.organizations))
         return result
 
