@@ -17,7 +17,7 @@ class FakeGithubRetriever(GithubUserRetriever):
     def add(self, user: GithubUser) -> None:
         self._users[user.username] = user
 
-    def retrieve(self, username: str) -> GithubUser:
+    def user(self, username: str) -> GithubUser:
         return self._users[username]
 
 
@@ -29,19 +29,29 @@ class FakeTwitterRetriever(TwitterUsersRetriever):
     def add(self, user: TwitterUser) -> None:
         self._users[user.username] = user
 
-    def retrieve(self, username: str) -> TwitterUser:
+    def user(self, username: str) -> TwitterUser:
         return self._users[username]
 
 
 class DevelopersRepositoryTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        self.twitter_retriever = FakeTwitterRetriever()
-        self.github_retriever = FakeGithubRetriever()
+        self.twitter_retriever = FakeTwitterRetriever()  # type: ignore
+        self.github_retriever = FakeGithubRetriever()  # type: ignore
 
     def test_retrieves_user_from_guthub_and_twitter_retrievers(self) -> None:
         repository = DevelopersRepository(self.twitter_retriever, self.github_retriever)
+        self.twitter_retriever.add(
+            TwitterUser(
+                "dev1", followed_by=["dev2", "dev3"], following=["dev2", "dev5"]
+            )
+        )
         developer = repository.get(Handle("dev1"))
         self.assertEqual(
-            Developer(Handle("dev1"), follows=[], followed_by=[], organizations=[]),
+            Developer(
+                Handle("dev1"),
+                follows=[Handle("dev2"), Handle("dev5")],
+                followed_by=[Handle("dev2"), Handle("dev3")],
+                organizations=[],
+            ),
             developer,
         )
