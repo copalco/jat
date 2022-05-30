@@ -2,9 +2,10 @@ from src.domain.events.store import EventStore
 from src.domain.events.stream import EventStream
 from src.domain.events.stream_id import EventStreamId
 from src.domain.model.connection import Connection
+from src.domain.model.connection_repository import ConnectionRepository
 
 
-class EventSourcedConnectionRepository:
+class EventSourcedConnectionRepository(ConnectionRepository):
     def __init__(self, event_store: EventStore) -> None:
         self._event_store = event_store
 

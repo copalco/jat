@@ -7,6 +7,7 @@ from src.app.developers_relation import (
 from src.app.errors import Errors
 from src.app.query_handler import QueryHandler
 from src.domain.model.connection import Connection
+from src.domain.model.connection_repository import ConnectionRepository
 from src.domain.model.developer import Developer
 from src.domain.model.developer_not_found import DeveloperNotFound
 from src.domain.model.developers_repository import DevelopersRepository
@@ -16,7 +17,12 @@ from src.domain.model.handle import Handle
 class ConnectedQueryHandler(
     QueryHandler[AreDevelopersConnectedQuery, DevelopersRelation]
 ):
-    def __init__(self, developers_repository: DevelopersRepository) -> None:
+    def __init__(
+        self,
+        developers_repository: DevelopersRepository,
+        connection_repository: ConnectionRepository,
+    ) -> None:
+        self._connection_repository = connection_repository
         self._developer_repository = developers_repository
 
     def handle(self, query: AreDevelopersConnectedQuery) -> DevelopersRelation:
@@ -38,6 +44,7 @@ class ConnectedQueryHandler(
         if not first_developer or not second_developer:
             raise RuntimeError("Impossible!")
         connection = Connection.register(first_developer, second_developer)
+        self._connection_repository.save(connection)
         if connection.are_connected():
             return DevelopersConnected(organizations=set())
         return DevelopersNotConnected()
