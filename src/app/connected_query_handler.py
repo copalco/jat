@@ -23,5 +23,5 @@ class ConnectedQueryHandler(
         second_developer = self._developer_repository.get(second_developer_handle)
         connection = Connection.register(first_developer, second_developer)
         if connection.are_connected():
-            return DevelopersConnected(organisations=[])
+            return DevelopersConnected(organizations=set())
         return DevelopersNotConnected()

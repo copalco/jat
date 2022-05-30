@@ -66,6 +66,6 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             AreDevelopersConnectedQuery(first_developer="dev1", second_developer="dev2")
         )
         self.assertEqual(
-            DevelopersConnected(organisations=["org1", "org2"]).connected(),
+            DevelopersConnected(organizations={"a", "b", "c"}).connected(),
             result.connected(),
         )

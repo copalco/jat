@@ -24,6 +24,6 @@ class ConnectedResource(Resource):
         )
         if relation.connected():
             return JSONResponse(
-                {"connected": True, "organisations": relation.organisations()}
+                {"connected": True, "organizations": relation.organizations()}
             )
         return JSONResponse({"connected": False})

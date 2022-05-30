@@ -22,7 +22,7 @@ class FakeQueryHandler(ConnectedQueryHandler):
             query.first_developer in self._connected
             and query.second_developer in self._connected
         ):
-            return DevelopersConnected(["org1", "org2"])
+            return DevelopersConnected({"org1", "org2"})
         return DevelopersNotConnected()
 
 
@@ -59,6 +59,6 @@ class ConnectedResourceTestCase(unittest.TestCase):
             )
         )
         self.assertEqual(
-            JSONResponse({"connected": True, "organisations": ["org1", "org2"]}).body,
+            JSONResponse({"connected": True, "organizations": ["org1", "org2"]}).body,
             result.body,
         )
