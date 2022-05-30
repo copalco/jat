@@ -5,7 +5,6 @@ from src.domain.events.stream_id import EventStreamId
 
 
 class EventStore(abc.ABC):
-
     @abc.abstractmethod
     def store(self, stream: EventStream) -> None:
         raise NotImplementedError()
