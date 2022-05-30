@@ -28,3 +28,8 @@ class DevelopersNotConnected(DevelopersRelation):
 
     def organizations(self) -> list[str]:
         raise NotImplementedError()
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, DevelopersConnected):
+            return NotImplemented
+        return self.connected() == other.connected()
