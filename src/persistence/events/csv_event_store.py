@@ -11,7 +11,7 @@ class CSVEventStore(EventStore):
         self.filepath = filepath
 
     def store(self, stream: EventStream) -> None:
-        with open(self.filepath, "w") as events_file:
+        with open(self.filepath, "a") as events_file:
             writer = csv.writer(events_file, delimiter=";")
             for event in stream.events:
                 writer.writerow([stream.id, *event.to_string()])
