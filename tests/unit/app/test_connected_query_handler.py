@@ -154,7 +154,3 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
                 Handle("dev1"), Handle("dev2")
             )
         )
-        self.assertEqual(
-            DevelopersConnected(organizations=["a", "b", "c"]),
-            result,
-        )
