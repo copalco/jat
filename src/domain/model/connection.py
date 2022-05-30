@@ -46,7 +46,7 @@ class Connection:
         return set(self._first.organizations).intersection(self._second.organizations)
 
     def shared_organizations(self) -> list[str]:
-        return list(self._shared_organizations())
+        return sorted(list(self._shared_organizations()))
 
     def _connected(self) -> None:
         event = DevelopersAreConnected(
