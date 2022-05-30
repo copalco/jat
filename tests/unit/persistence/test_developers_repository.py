@@ -1,12 +1,12 @@
 import unittest
 
-from src.persistence.developers_repository import ExternalDevelopersRepository
 from src.domain.model.developer import Developer
 from src.domain.model.developer_not_found import DeveloperNotFound
 from src.domain.model.handle import Handle
 from src.github.user import GithubUser
 from src.github.user_not_found import GithubUserNotFound
 from src.github.user_retriever import GithubUserRetriever
+from src.persistence.developers_repository import ExternalDevelopersRepository
 from src.twitter.user import TwitterUser
 from src.twitter.user_not_found import TwitterUserNotFound
 from src.twitter.user_retriever import TwitterUsersRetriever
