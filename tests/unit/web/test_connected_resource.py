@@ -25,14 +25,17 @@ class FakeQueryHandler(ConnectedQueryHandler):
             return DevelopersConnected(["org1", "org2"])
         return DevelopersNotConnected()
 
+    def fail_with(self, error: Exception) -> None:
+        self._error = error
+
 
 class ConnectedResourceTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.query_handler = FakeQueryHandler()  # type: ignore
+        self.resource = ConnectedResource(self.query_handler)
 
     def test_returns_false_for_not_connected_developers(self) -> None:
-        resource = ConnectedResource(self.query_handler)
-        result = resource.on_get(
+        result = self.resource.on_get(
             Request(
                 scope={
                     "type": "http",
@@ -46,8 +49,7 @@ class ConnectedResourceTestCase(unittest.TestCase):
         self.assertEqual(JSONResponse({"connected": False}).body, result.body)
 
     def test_returns_true_for_connected_developers(self) -> None:
-        resource = ConnectedResource(self.query_handler)
-        result = resource.on_get(
+        result = self.resource.on_get(
             Request(
                 scope={
                     "type": "http",
