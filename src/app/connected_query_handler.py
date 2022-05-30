@@ -7,6 +7,7 @@ from src.app.developers_relation import (
 from src.app.query_handler import QueryHandler
 from src.domain.model.developers_repository import DevelopersRepository
 from src.domain.model.handle import Handle
+from src.domain.model.connection import Connection
 
 
 class ConnectedQueryHandler(
@@ -20,6 +21,7 @@ class ConnectedQueryHandler(
         second_developer_handle = Handle(query.second_developer)
         first_developer = self._developer_repository.get(first_developer_handle)
         second_developer = self._developer_repository.get(second_developer_handle)
-        if first_developer.connected(second_developer):
+        connection = Connection.register(first_developer, second_developer)
+        if connection.are_connected():
             return DevelopersConnected(organisations=[])
         return DevelopersNotConnected()
