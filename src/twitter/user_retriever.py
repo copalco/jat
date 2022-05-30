@@ -18,24 +18,18 @@ class TwitterUsersRetriever:
 
     def user(self, username: str) -> TwitterUser:
         user = self._user(username)
-        followers = self._followers_of(user)
-        following = self._followed_by(user)
+        followers = self._followed_by(user)
+        follows = self._follows(user)
         return TwitterUser(
             username,
             followed_by=followers,
-            following=following,
+            follows=follows,
         )
 
     def _followed_by(self, user: RawUser) -> list[str]:
-        following_response = requests.get(
-            f"https://api.twitter.com/2/users/{user['id']}/followers",
-            headers={"authorization": f"Bearer {self.api_token}"},
-        )
-        raw_following = following_response.json()["data"]
-        following = [following["username"] for following in raw_following]
-        return following
+        return []
 
-    def _followers_of(self, user: RawUser) -> list[str]:
+    def _follows(self, user: RawUser) -> list[str]:
         followers_response = requests.get(
             f"https://api.twitter.com/2/users/{user['id']}/followers",
             headers={"authorization": f"Bearer {self.api_token}"},

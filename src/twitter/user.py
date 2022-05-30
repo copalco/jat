@@ -5,4 +5,4 @@ from dataclasses import dataclass
 class TwitterUser:
     username: str
     followed_by: list[str]
-    following: list[str]
+    follows: list[str]
