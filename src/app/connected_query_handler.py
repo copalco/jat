@@ -29,14 +29,16 @@ class ConnectedQueryHandler(
         errors: list[Exception] = []
         first_developer: Developer | None = None
         second_developer: Developer | None = None
-        first_developer_handle = Handle(query.first_developer)
-        second_developer_handle = Handle(query.second_developer)
         try:
-            first_developer = self._developer_repository.get(first_developer_handle)
+            first_developer = self._developer_repository.get(
+                Handle(query.first_developer)
+            )
         except DeveloperNotFound as e:
             errors.append(e)
         try:
-            second_developer = self._developer_repository.get(second_developer_handle)
+            second_developer = self._developer_repository.get(
+                Handle(query.second_developer)
+            )
         except DeveloperNotFound as e:
             errors.append(e)
         if errors:
