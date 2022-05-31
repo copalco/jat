@@ -19,10 +19,6 @@ class DevelopersRelation(abc.ABC):
             return DevelopersNotConnected()
         return DevelopersConnected(connection.shared_organizations())
 
-    @abc.abstractmethod
-    def to_dict(self) -> dict[str, [bool, list[str]]]:
-        raise NotImplementedError()
-
 
 @dataclass(frozen=True)
 class DevelopersConnected(DevelopersRelation):
@@ -34,9 +30,6 @@ class DevelopersConnected(DevelopersRelation):
     def organizations(self) -> list[str]:
         return self._organizations
 
-    def to_dict(self) -> dict[str, [bool, list[str]]]:
-        return {"connected": self.connected(), "organizations": self._organizations}
-
 
 @dataclass(frozen=True)
 class DevelopersNotConnected(DevelopersRelation):
@@ -45,6 +38,3 @@ class DevelopersNotConnected(DevelopersRelation):
 
     def organizations(self) -> list[str]:
         return []
-
-    def to_dict(self) -> dict[str, [bool, list[str]]]:
-        return {"connected": self.connected()}
