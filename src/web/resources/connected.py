@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
@@ -25,14 +27,15 @@ class ConnectedResource(Resource):
                 )
             )
         except Errors as e:
-            errors: list[str] = []
-            for error in e.args[0]:
-                for service in error.absent_on:
-                    errors.append(f"{error.handle} is no valid user in {service}")
-            return JSONResponse({"errors": sorted(errors)})
+            return JSONResponse({"errors": sorted(self._error_messages_from(e))})
         else:
             if relation.connected():
                 return JSONResponse(
                     {"connected": True, "organizations": relation.organizations()}
                 )
             return JSONResponse({"connected": False})
+
+    def _error_messages_from(self, e) -> Iterator[str]:
+        for error in e.args[0]:
+            for service in error.absent_on:
+                yield f"{error.handle} is no valid user in {service}"
