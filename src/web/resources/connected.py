@@ -28,12 +28,7 @@ class ConnectedResource(Resource):
             )
         except Errors as e:
             return JSONResponse({"errors": sorted(self._error_messages_from(e))})
-        else:
-            if relation.connected():
-                return JSONResponse(
-                    {"connected": True, "organizations": relation.organizations()}
-                )
-            return JSONResponse({"connected": False})
+        return JSONResponse(relation.to_dict())
 
     def _error_messages_from(self, e) -> Iterator[str]:
         for error in e.args[0]:
