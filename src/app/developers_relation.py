@@ -1,4 +1,7 @@
 import abc
+from dataclasses import dataclass
+
+from src.domain.model.connection import Connection
 
 
 class DevelopersRelation(abc.ABC):
@@ -10,10 +13,16 @@ class DevelopersRelation(abc.ABC):
     def organizations(self) -> list[str]:
         raise NotImplementedError()
 
+    @classmethod
+    def from_connection(cls, connection: Connection) -> "DevelopersRelation":
+        if not connection.are_connected():
+            return DevelopersNotConnected()
+        return DevelopersConnected(connection.shared_organizations())
 
+
+@dataclass(frozen=True)
 class DevelopersConnected(DevelopersRelation):
-    def __init__(self, organizations: list[str]) -> None:
-        self._organizations = organizations
+    _organizations: list[str]
 
     def connected(self) -> bool:
         return True
@@ -21,23 +30,11 @@ class DevelopersConnected(DevelopersRelation):
     def organizations(self) -> list[str]:
         return self._organizations
 
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, DevelopersConnected):
-            return NotImplemented
-        if self.connected() != other.connected():
-            return False
-        else:
-            return self.organizations() == other.organizations()
 
-
+@dataclass(frozen=True)
 class DevelopersNotConnected(DevelopersRelation):
     def connected(self) -> bool:
         return False
 
     def organizations(self) -> list[str]:
-        raise NotImplementedError()
-
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, DevelopersConnected):
-            return NotImplemented
-        return self.connected() == other.connected()
+        return []

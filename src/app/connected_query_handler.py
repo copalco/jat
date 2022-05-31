@@ -1,9 +1,5 @@
 from src.app.are_developers_connected_query import AreDevelopersConnectedQuery
-from src.app.developers_relation import (
-    DevelopersConnected,
-    DevelopersNotConnected,
-    DevelopersRelation,
-)
+from src.app.developers_relation import DevelopersRelation
 from src.app.errors import Errors
 from src.app.query_handler import QueryHandler
 from src.domain.model.connection import Connection
@@ -47,6 +43,4 @@ class ConnectedQueryHandler(
             raise RuntimeError("Impossible!")
         connection = Connection.register(first_developer, second_developer)
         self._connection_repository.save(connection)
-        if connection.are_connected():
-            return DevelopersConnected(organizations=connection.shared_organizations())
-        return DevelopersNotConnected()
+        return DevelopersRelation.from_connection(connection)
