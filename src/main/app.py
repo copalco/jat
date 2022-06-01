@@ -1,6 +1,7 @@
 import os
 
 from src.app.connected_usecase import ConnectedUseCase
+from src.app.register_query_handler import ConnectedRegistryQueryHandler
 from src.domain.events.store import EventStore
 from src.domain.model.connection_repository import ConnectionRepository
 from src.domain.model.developers_repository import DevelopersRepository
@@ -38,3 +39,7 @@ def create_connection_usecase() -> ConnectedUseCase:
         developers_repository=developers_repository(),
         connection_repository=connection_repository(),
     )
+
+
+def create_connection_register_query_handler() -> ConnectedRegistryQueryHandler:
+    return ConnectedRegistryQueryHandler(connection_repository=connection_repository())
