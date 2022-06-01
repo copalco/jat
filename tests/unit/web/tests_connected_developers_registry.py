@@ -102,3 +102,19 @@ class ConnectedResourceTestCase(unittest.TestCase):
             result.body,
             result.body,
         )
+
+    def test_returns_empty_list_for_developers_never_checked_for_connection(
+        self,
+    ) -> None:
+        result = self.resource.on_get(
+            Request(
+                scope={
+                    "type": "http",
+                    "path_params": {
+                        "first_developer_handle": "dev99999",
+                        "second_developer_handle": "dev22222",
+                    },
+                }
+            )
+        )
+        self.assertEqual(JSONResponse([]).body, result.body, result.body)
