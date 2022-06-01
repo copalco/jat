@@ -21,25 +21,22 @@ class ConnectedUseCase(UseCase[AreDevelopersConnectedOperation, DevelopersRelati
         self._developer_repository = developers_repository
 
     def handle(self, operation: AreDevelopersConnectedOperation) -> DevelopersRelation:
-        errors: list[Exception] = []
-        first_developer: Developer | None = None
-        second_developer: Developer | None = None
-        try:
-            first_developer = self._developer_repository.get(
-                Handle(operation.first_developer)
-            )
-        except DeveloperNotFound as e:
-            errors.append(e)
-        try:
-            second_developer = self._developer_repository.get(
-                Handle(operation.second_developer)
-            )
-        except DeveloperNotFound as e:
-            errors.append(e)
-        if errors:
-            raise Errors(errors)
+        first_developer, second_developer = self._developers(operation)
         connection = Connection.register(first_developer, second_developer)
         self._connection_repository.save(connection)
-        if connection.are_connected():
-            return DevelopersConnected(organizations=connection.shared_organizations())
-        return DevelopersNotConnected()
+        return DevelopersRelation.from_connection(connection)
+
+    def _developers(
+        self, operation: AreDevelopersConnectedOperation
+    ) -> tuple[Developer, Developer]:
+        first = self._retrieve(operation.first_developer)
+        second = self._retrieve(operation.second_developer)
+        if not first.succeeded() or not second.succeeded():
+            raise Errors(errors=first.errors() + second.errors())
+        return first.value(), second.value()
+
+    def _retrieve(self, handle: str) -> Result:
+        try:
+            return Result.ok(self._developer_repository.get(Handle(handle)))
+        except DeveloperNotFound as e:
+            return Result.error(e)
