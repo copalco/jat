@@ -16,7 +16,7 @@ class Event:
         match row:
             case [str(), str(), str()]:
                 return DevelopersAreConnected.from_csv_row(row)
-            case[str(), str()]:
+            case [str(), str()]:
                 return DevelopersAreNotConnected.from_csv_row(row)
             case _:
                 raise NotImplementedError()
