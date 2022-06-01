@@ -37,7 +37,7 @@ class CsvEventStoreTestCase(unittest.TestCase):
     def test_withdraws_events_for_non_registered_developers(self) -> None:
         event_stream_id = EventStreamId.from_handles(*(Handle("dev1"), Handle("dev2")))
         with open(f"{self.dir.name}/events.csv", "w") as f:
-            f.write("")
+            _ = f.write("")
         store = CSVEventStore(f"{self.dir.name}/events.csv")
         result = store.withdraw(event_stream_id)
         self.assertEqual(result, EventStream(event_stream_id, []))
