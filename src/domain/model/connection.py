@@ -5,66 +5,56 @@ from src.domain.events.events import (
     DevelopersAreNotConnected,
     Event,
 )
+from src.domain.model.connection_id import ConnectionId
 from src.domain.model.developer import Developer
 from src.domain.model.handle import Handle
 
 
 class Connection:
-    def __init__(self, first: Developer, second: Developer) -> None:
-        self._first = first
-        self._second = second
+    def __init__(self, id: ConnectionId) -> None:
+        self._id = id
+        self._connected: bool | None = None
+        self._organizations: set[str] = set()
+        self._history: list[Event] = []
         self._changes: list[Event] = []
-        self._connection: bool | None = None
-        self._organizations: set[str] | None = None
 
     @classmethod
-    def register(
-        cls, first_developer: Developer, second_developer: Developer
-    ) -> "Connection":
-        connection = Connection(first_developer, second_developer)
-        if connection.are_connected():
-            connection._connected()
+    def register(cls, first: Developer, second: Developer) -> "Connection":
+        connection = Connection(ConnectionId.from_handles(first.handle, second.handle))
+        if first.connected(second):
+            connection.connected(first.shared_organizations(second))
         else:
-            connection._not_connected()
+            connection.not_connected()
         return connection
 
-    def are_connected(self) -> bool:
-        return (
-            self._follow_each_other()
-            and self._share_at_least_one_organization_on_github()
-        )
-
-    def _follow_each_other(self) -> bool:
-        return self._first.is_following_on_twitter(
-            self._second
-        ) and self._second.is_following_on_twitter(self._first)
-
-    def _share_at_least_one_organization_on_github(self) -> bool:
-        return bool(self._shared_organizations())
-
-    def _shared_organizations(self) -> set[str]:
-        return set(self._first.organizations).intersection(self._second.organizations)
+    def are_connected(
+        self,
+    ) -> bool:
+        if self._connected is None:
+            raise ValueError("Unknown connection")
+        return self._connected
 
     def shared_organizations(self) -> list[str]:
-        return sorted(list(self._shared_organizations()))
+        return sorted(list(self._organizations))
 
-    def _connected(self) -> None:
+    def connected(self, shared_organizations: set[str]) -> None:
         event = DevelopersAreConnected(
             handles=self.handles,
             registered_at=datetime.datetime.utcnow(),
-            organizations=self._shared_organizations(),
+            organizations=shared_organizations,
         )
         self._apply(event)
         self._changes.append(event)
 
     def _apply(self, event: Event) -> None:
+        self._history.append(event)
         if isinstance(event, DevelopersAreNotConnected):
-            self._connection = False
+            self._connected = False
         if isinstance(event, DevelopersAreConnected):
-            self._connection = True
+            self._connected = True
             self._organizations = event.organizations
 
-    def _not_connected(self):
+    def not_connected(self) -> None:
         event = DevelopersAreNotConnected(
             handles=self.handles,
             registered_at=datetime.datetime.utcnow(),
@@ -75,6 +65,16 @@ class Connection:
     def changes(self) -> list[Event]:
         return self._changes
 
+    def history(self) -> list[Event]:
+        return self._history
+
     @property
     def handles(self) -> tuple[Handle, Handle]:
-        return (self._first.handle, self._second.handle)
+        return self._id.to_handles()
+
+    @classmethod
+    def restore(cls, id: ConnectionId, events: list[Event]) -> "Connection":
+        connection = cls(id)
+        for event in events:
+            connection._apply(event)
+        return connection

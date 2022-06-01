@@ -20,4 +20,7 @@ class Developer:
         return developer.handle in self.follows
 
     def _share_at_least_one_organization(self, developer: "Developer") -> bool:
-        return bool(set(self.organizations).intersection(developer.organizations))
+        return bool(self.shared_organizations(developer))
+
+    def shared_organizations(self, developer: "Developer") -> set[str]:
+        return set(self.organizations).intersection(developer.organizations)
