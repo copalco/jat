@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-Query = TypeVar("Query")
+Operation = TypeVar("Operation")
 Result = TypeVar("Result")
 
 
-class QueryHandler(ABC, Generic[Query, Result]):
+class UseCase(ABC, Generic[Operation, Result]):
     @abstractmethod
-    def handle(self, query: Query) -> Result:
+    def handle(self, operation: Operation) -> Result:
         pass

@@ -1,6 +1,6 @@
 import os
 
-from src.app.connected_query_handler import ConnectedQueryHandler
+from src.app.connected_usecase import ConnectedUseCase
 from src.domain.events.store import EventStore
 from src.domain.model.connection_repository import ConnectionRepository
 from src.domain.model.developers_repository import DevelopersRepository
@@ -33,8 +33,8 @@ def connection_repository() -> ConnectionRepository:
     return EventSourcedConnectionRepository(event_store=event_store())
 
 
-def create_connection_query_handler() -> ConnectedQueryHandler:
-    return ConnectedQueryHandler(
+def create_connection_usecase() -> ConnectedUseCase:
+    return ConnectedUseCase(
         developers_repository=developers_repository(),
         connection_repository=connection_repository(),
     )

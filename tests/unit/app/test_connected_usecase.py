@@ -1,7 +1,7 @@
 import unittest
 
-from src.app.are_developers_connected_query import AreDevelopersConnectedQuery
-from src.app.connected_query_handler import ConnectedQueryHandler
+from src.app.are_developers_connected_query import AreDevelopersConnectedOperation
+from src.app.connected_usecase import ConnectedUseCase
 from src.app.developers_relation import DevelopersConnected, DevelopersNotConnected
 from src.app.errors import Errors
 from src.domain.model.connection import Connection
@@ -41,11 +41,11 @@ class SpyConnectionRepository(ConnectionRepository):
         return self._connections[(first, second)]
 
 
-class ConnectedQueryHandlerTestCase(unittest.TestCase):
+class ConnectedUseCaseTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.repository = FakeDevelopersRepository()  # type: ignore
         self.connection_repository = SpyConnectionRepository()  # type: ignore
-        self.query_handler = ConnectedQueryHandler(self.repository, self.connection_repository)  # type: ignore
+        self.usecase = ConnectedUseCase(self.repository, self.connection_repository)  # type: ignore
 
     def test_developers_not_being_connected(self) -> None:
         self.repository.add_developer(
@@ -62,10 +62,13 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
                 organizations=["a", "b", "c"],
             )
         )
-        result = self.query_handler.handle(
-            AreDevelopersConnectedQuery(first_developer="dev1", second_developer="dev2")
+        result = self.usecase.handle(
+            AreDevelopersConnectedOperation(
+                first_developer="dev1", second_developer="dev2"
+            )
         )
-        self.assertEqual(DevelopersNotConnected().connected(), result.connected())
+        not_connected = DevelopersNotConnected()
+        self.assertEqual(not_connected, result, (not_connected, result))
 
     def test_developers_are_connected(self) -> None:
         self.repository.add_developer(
@@ -82,11 +85,13 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
                 organizations=["a", "b", "c"],
             )
         )
-        result = self.query_handler.handle(
-            AreDevelopersConnectedQuery(first_developer="dev1", second_developer="dev2")
+        result = self.usecase.handle(
+            AreDevelopersConnectedOperation(
+                first_developer="dev1", second_developer="dev2"
+            )
         )
         self.assertEqual(
-            DevelopersConnected(organizations=["a", "b", "c"]),
+            DevelopersConnected(_organizations=["a", "b", "c"]),
             result,
         )
 
@@ -112,8 +117,8 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
             )
         )
         with self.assertRaises(Errors) as exception_info:
-            _ = self.query_handler.handle(
-                AreDevelopersConnectedQuery(
+            _ = self.usecase.handle(
+                AreDevelopersConnectedOperation(
                     first_developer="dev1", second_developer="dev2"
                 )
             )
@@ -146,8 +151,10 @@ class ConnectedQueryHandlerTestCase(unittest.TestCase):
                 organizations=["a", "b", "c"],
             )
         )
-        _ = self.query_handler.handle(
-            AreDevelopersConnectedQuery(first_developer="dev1", second_developer="dev2")
+        _ = self.usecase.handle(
+            AreDevelopersConnectedOperation(
+                first_developer="dev1", second_developer="dev2"
+            )
         )
         self.assertTrue(
             self.connection_repository.stored_connection_for(

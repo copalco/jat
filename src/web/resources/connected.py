@@ -3,8 +3,8 @@ from typing import Iterator
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
-from src.app.are_developers_connected_query import AreDevelopersConnectedQuery
-from src.app.connected_query_handler import ConnectedQueryHandler
+from src.app.are_developers_connected_query import AreDevelopersConnectedOperation
+from src.app.connected_usecase import ConnectedUseCase
 from src.app.errors import Errors
 from src.web.resource import Resource
 
@@ -15,13 +15,13 @@ class StubResource(Resource):
 
 
 class ConnectedResource(Resource):
-    def __init__(self, query_handler: ConnectedQueryHandler) -> None:
-        self.query_handler = query_handler
+    def __init__(self, use_case: ConnectedUseCase) -> None:
+        self.use_case = use_case
 
     def on_get(self, request: Request) -> Response:
         try:
-            relation = self.query_handler.handle(
-                AreDevelopersConnectedQuery(
+            relation = self.use_case.handle(
+                AreDevelopersConnectedOperation(
                     request.path_params["first_developer_handle"],
                     request.path_params["second_developer_handle"],
                 )

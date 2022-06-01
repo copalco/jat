@@ -1,7 +1,8 @@
-from src.app.are_developers_connected_query import AreDevelopersConnectedQuery
+from src.app.are_developers_connected_query import AreDevelopersConnectedOperation
 from src.app.developers_relation import DevelopersRelation
+from src.app.developers_result import Result
 from src.app.errors import Errors
-from src.app.query_handler import QueryHandler
+from src.app.query_handler import UseCase
 from src.domain.model.connection import Connection
 from src.domain.model.connection_repository import ConnectionRepository
 from src.domain.model.developer import Developer
@@ -10,9 +11,7 @@ from src.domain.model.developers_repository import DevelopersRepository
 from src.domain.model.handle import Handle
 
 
-class ConnectedQueryHandler(
-    QueryHandler[AreDevelopersConnectedQuery, DevelopersRelation]
-):
+class ConnectedUseCase(UseCase[AreDevelopersConnectedOperation, DevelopersRelation]):
     def __init__(
         self,
         developers_repository: DevelopersRepository,
@@ -21,26 +20,26 @@ class ConnectedQueryHandler(
         self._connection_repository = connection_repository
         self._developer_repository = developers_repository
 
-    def handle(self, query: AreDevelopersConnectedQuery) -> DevelopersRelation:
+    def handle(self, operation: AreDevelopersConnectedOperation) -> DevelopersRelation:
         errors: list[Exception] = []
         first_developer: Developer | None = None
         second_developer: Developer | None = None
         try:
             first_developer = self._developer_repository.get(
-                Handle(query.first_developer)
+                Handle(operation.first_developer)
             )
         except DeveloperNotFound as e:
             errors.append(e)
         try:
             second_developer = self._developer_repository.get(
-                Handle(query.second_developer)
+                Handle(operation.second_developer)
             )
         except DeveloperNotFound as e:
             errors.append(e)
         if errors:
             raise Errors(errors)
-        if not first_developer or not second_developer:
-            raise RuntimeError("Impossible!")
         connection = Connection.register(first_developer, second_developer)
         self._connection_repository.save(connection)
-        return DevelopersRelation.from_connection(connection)
+        if connection.are_connected():
+            return DevelopersConnected(organizations=connection.shared_organizations())
+        return DevelopersNotConnected()
