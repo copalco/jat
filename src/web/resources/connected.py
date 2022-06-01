@@ -35,7 +35,7 @@ class ConnectedResource(Resource):
                 )
             return JSONResponse({"connected": False})
 
-    def _error_messages_from(self, e) -> Iterator[str]:
-        for error in e.args[0]:
+    def _error_messages_from(self, errors: Errors) -> Iterator[str]:
+        for error in errors.list():
             for service in error.absent_on:
                 yield f"{error.handle} is no valid user in {service}"
