@@ -18,18 +18,13 @@ class Connection:
         self._history: list[Event] = []
         self._changes: list[Event] = []
 
-    @classmethod
-    def register(cls, first: Developer, second: Developer) -> "Connection":
-        connection = Connection(ConnectionId.from_handles(first.handle, second.handle))
+    def register(self, first: Developer, second: Developer) -> None:
         if first.connected(second):
-            connection.connected(first.shared_organizations(second))
+            self.connected(first.shared_organizations(second))
         else:
-            connection.not_connected()
-        return connection
+            self.not_connected()
 
-    def are_connected(
-        self,
-    ) -> bool:
+    def are_connected(self) -> bool:
         if self._connected is None:
             raise ValueError("Unknown connection")
         return self._connected

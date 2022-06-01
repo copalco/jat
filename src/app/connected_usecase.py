@@ -4,6 +4,7 @@ from src.app.developers_result import Result
 from src.app.errors import Errors
 from src.app.query_handler import UseCase
 from src.domain.model.connection import Connection
+from src.domain.model.connection_id import ConnectionId
 from src.domain.model.connection_repository import ConnectionRepository
 from src.domain.model.developer import Developer
 from src.domain.model.developer_not_found import DeveloperNotFound
@@ -22,7 +23,10 @@ class ConnectedUseCase(UseCase[AreDevelopersConnectedOperation, DevelopersRelati
 
     def handle(self, operation: AreDevelopersConnectedOperation) -> DevelopersRelation:
         first_developer, second_developer = self._developers(operation)
-        connection = Connection.register(first_developer, second_developer)
+        connection = Connection(
+            ConnectionId.from_handles(first_developer.handle, second_developer.handle)
+        )
+        connection.register(first_developer, second_developer)
         self._connection_repository.save(connection)
         return DevelopersRelation.from_connection(connection)
 

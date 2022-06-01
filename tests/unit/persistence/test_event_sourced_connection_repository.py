@@ -41,7 +41,10 @@ class EventSourcedConnectionRepositoryTestCase(unittest.TestCase):
         event_store: EventStore = SpyEventStore()
         repository = EventSourcedConnectionRepository(event_store)
         with freezegun.freeze_time("2022-05-30"):
-            connection = Connection.register(
+            connection = Connection(
+                ConnectionId.from_handles(first_handle, second_handle)
+            )
+            connection.register(
                 Developer(
                     first_handle,
                     follows=[second_handle, Handle("dev5")],
@@ -74,8 +77,9 @@ class EventSourcedConnectionRepositoryTestCase(unittest.TestCase):
         second_handle = Handle("dev2")
         event_store: EventStore = SpyEventStore()
         repository = EventSourcedConnectionRepository(event_store)
+        connection = Connection(ConnectionId.from_handles(first_handle, second_handle))
         with freezegun.freeze_time("2022-05-30"):
-            connection = Connection.register(
+            connection.register(
                 Developer(
                     first_handle,
                     follows=[second_handle, Handle("dev5")],
@@ -87,8 +91,7 @@ class EventSourcedConnectionRepositoryTestCase(unittest.TestCase):
                     organizations=["org1", "org3"],
                 ),
             )
-            repository.save(connection)
-            connection2 = connection.register(
+            connection.register(
                 Developer(
                     first_handle,
                     follows=[second_handle, Handle("dev5")],
@@ -100,8 +103,7 @@ class EventSourcedConnectionRepositoryTestCase(unittest.TestCase):
                     organizations=["org1", "org3"],
                 ),
             )
-            repository.save(connection2)
-            connection3 = connection.register(
+            connection.register(
                 Developer(
                     first_handle,
                     follows=[second_handle, Handle("dev5")],
@@ -113,7 +115,7 @@ class EventSourcedConnectionRepositoryTestCase(unittest.TestCase):
                     organizations=["org1", "org2", "org3"],
                 ),
             )
-            repository.save(connection3)
+            repository.save(connection)
         new_connection = repository.restore(
             ConnectionId.from_handles(first_handle, second_handle)
         )

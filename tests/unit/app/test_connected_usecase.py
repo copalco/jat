@@ -5,6 +5,7 @@ from src.app.connected_usecase import ConnectedUseCase
 from src.app.developers_relation import DevelopersConnected, DevelopersNotConnected
 from src.app.errors import Errors
 from src.domain.model.connection import Connection
+from src.domain.model.connection_id import ConnectionId
 from src.domain.model.connection_repository import ConnectionRepository
 from src.domain.model.developer import Developer
 from src.domain.model.developer_not_found import DeveloperNotFound
@@ -40,6 +41,9 @@ class SpyConnectionRepository(ConnectionRepository):
     def stored_connection_for(self, first: Handle, second: Handle) -> Connection:
         return self._connections[(first, second)]
 
+    def restore(self, id: ConnectionId) -> Connection:
+        raise NotImplementedError()
+
 
 class ConnectedUseCaseTestCase(unittest.TestCase):
     def setUp(self) -> None:
@@ -71,23 +75,27 @@ class ConnectedUseCaseTestCase(unittest.TestCase):
         self.assertEqual(not_connected, result, (not_connected, result))
 
     def test_developers_are_connected(self) -> None:
+        first_raw_handle = "dev1"
+        first_handle = Handle(first_raw_handle)
+        second_raw_handle = "dev2"
+        second_handle = Handle(second_raw_handle)
         self.repository.add_developer(
             Developer(
-                Handle("dev1"),
-                follows=[Handle("dev2")],
+                first_handle,
+                follows=[second_handle],
                 organizations=["a", "b", "c"],
             )
         )
         self.repository.add_developer(
             Developer(
-                Handle("dev2"),
-                follows=[Handle("dev1")],
+                second_handle,
+                follows=[first_handle],
                 organizations=["a", "b", "c"],
             )
         )
         result = self.usecase.handle(
             AreDevelopersConnectedOperation(
-                first_developer="dev1", second_developer="dev2"
+                first_developer=first_raw_handle, second_developer=second_raw_handle
             )
         )
         self.assertEqual(
