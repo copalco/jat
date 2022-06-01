@@ -8,12 +8,18 @@ from src.domain.model.handle import Handle
 class Event:
     registered_at: datetime.datetime
 
-    def to_string(self) -> list[str]:
+    def to_csv_row(self) -> list[str]:
         return [self.registered_at.isoformat()]
 
     @classmethod
-    def from_string(cls, event_string: list[str]) -> "Event":
-        return cls(datetime.datetime.fromisoformat(event_string[0]))
+    def from_csv_row(cls, row: list[str]) -> "Event":
+        match row:
+            case [str(), str(), str()]:
+                return DevelopersAreConnected.from_csv_row(row)
+            case[str(), str()]:
+                return DevelopersAreNotConnected.from_csv_row(row)
+            case _:
+                raise NotImplementedError()
 
 
 @dataclass
@@ -21,18 +27,18 @@ class DevelopersAreConnected(Event):
     handles: tuple[Handle, Handle]
     organizations: set[str]
 
-    def to_string(self) -> list[str]:
-        result = super().to_string()
+    def to_csv_row(self) -> list[str]:
+        result = super().to_csv_row()
         result.append(f"{self.handles[0]}-{self.handles[1]}")
         result.append(",".join(self.organizations))
         return result
 
     @classmethod
-    def from_string(cls, event_string: list[str]) -> "Event":
-        registered_at = super().from_string(event_string).registered_at
-        first_raw_handle, _, second_raw_handle = event_string[1].split("-")
+    def from_csv_row(cls, row: list[str]) -> "Event":
+        registered_at = datetime.datetime.fromisoformat(row[0])
+        first_raw_handle, second_raw_handle = row[1].split("-")
         handles = (Handle(first_raw_handle), Handle(second_raw_handle))
-        organizations = set(org for org in event_string[2].split(",") if org != ",")
+        organizations = set(org for org in row[2].split(",") if org != ",")
         return cls(
             registered_at=registered_at, handles=handles, organizations=organizations
         )
@@ -42,14 +48,14 @@ class DevelopersAreConnected(Event):
 class DevelopersAreNotConnected(Event):
     handles: tuple[Handle, Handle]
 
-    def to_string(self) -> list[str]:
-        result = super().to_string()
-        result.append(str(self.handles))
+    def to_csv_row(self) -> list[str]:
+        result = super().to_csv_row()
+        result.append(f"{self.handles[0]}-{self.handles[1]}")
         return result
 
     @classmethod
-    def from_string(cls, event_string: list[str]) -> "Event":
-        registered_at = super().from_string(event_string).registered_at
-        first_raw_handle, _, second_raw_handle = event_string[1].split("-")
+    def from_csv_row(cls, row: list[str]) -> "Event":
+        registered_at = datetime.datetime.fromisoformat(row[0])
+        first_raw_handle, second_raw_handle = row[1].split("-")
         handles = (Handle(first_raw_handle), Handle(second_raw_handle))
         return cls(registered_at=registered_at, handles=handles)
