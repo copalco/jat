@@ -8,16 +8,18 @@ from src.app.entry import Entry
 from src.app.register import RegisterFor
 from src.app.register_query_handler import ConnectedRegistryQueryHandler
 from src.app.registry_for_developers_query import ConnectedRegistryForDevelopersQuery
-from src.domain.model.handle import Handle
 
 
 class FakeQueryHandler(ConnectedRegistryQueryHandler):
+    def __init__(self) -> None:
+        pass
+
     def handle(self, query: ConnectedRegistryForDevelopersQuery) -> RegisterFor:
         if query.first != "dev1" or query.second != "dev2":
-            return RegisterFor(Handle(query.first), Handle(query.second), entries=[])
+            return RegisterFor(query.first, query.second, entries=[])
         return RegisterFor(
-            Handle("dev1"),
-            Handle("dev2"),
+            "dev1",
+            "dev2",
             entries=[
                 Entry(
                     registered_at=datetime.datetime(2022, 5, 30),
