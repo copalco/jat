@@ -14,7 +14,7 @@ class CSVEventStore(EventStore):
         with open(self.filepath, "a") as events_file:
             writer = csv.writer(events_file, delimiter=";")
             for event in stream.events:
-                writer.writerow([stream.id, *event.to_string()])
+                writer.writerow([stream.id, *event.to_csv_row()])
 
     def withdraw(self, stream_id: EventStreamId) -> EventStream:
         events: list[Event] = []
@@ -22,5 +22,5 @@ class CSVEventStore(EventStore):
             reader = csv.reader(events_file, delimiter=";")
             for row in reader:
                 if EventStreamId(row[0]) == stream_id:
-                    events.append(Event.from_string(row))
+                    events.append(Event.from_csv_row(row[1:]))
         return EventStream(stream_id, events)
