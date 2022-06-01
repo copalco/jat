@@ -1,36 +1,14 @@
 import datetime
 import unittest
-from dataclasses import dataclass
 
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
+from src.app.entry import Entry
+from src.app.register import RegisterFor
+from src.app.register_query_handler import ConnectedRegistryQueryHandler
+from src.app.registry_for_developers_query import ConnectedRegistryForDevelopersQuery
 from src.domain.model.handle import Handle
-
-
-@dataclass(frozen=True)
-class ConnectedRegistryForDevelopersQuery:
-    first: str
-    second: str
-
-
-@dataclass(frozen=True)
-class Entry:
-    registered_at: datetime.datetime
-    connected: bool
-    organizations: list[str]
-
-
-@dataclass(frozen=True)
-class RegisterFor:
-    first: Handle
-    second: Handle
-    entries: list[Entry]
-
-
-class ConnectedRegistryQueryHandler:
-    def handle(self, query: ConnectedRegistryForDevelopersQuery) -> RegisterFor:
-        return RegisterFor(Handle(""), Handle(""), [])
 
 
 class FakeQueryHandler(ConnectedRegistryQueryHandler):
