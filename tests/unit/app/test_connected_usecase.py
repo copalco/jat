@@ -123,17 +123,14 @@ class ConnectedUseCaseTestCase(unittest.TestCase):
                 )
             )
         self.assertEqual(
-            str(exception_info.exception),
-            str(
-                Errors(
-                    [
-                        DeveloperNotFound(
-                            Handle("dev1"), absent_on=["twitter", "github"]
-                        ),
-                        DeveloperNotFound(Handle("dev2"), absent_on=["github"]),
-                    ]
-                )
-            ),
+            exception_info.exception.list(),
+            [
+                DeveloperNotFound(
+                    Handle("dev1"),
+                    absent_on=["twitter", "github"],
+                ),
+                DeveloperNotFound(Handle("dev2"), absent_on=["github"]),
+            ],
         )
 
     def test_stores_registered_connection(self) -> None:
